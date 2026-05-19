@@ -5,7 +5,7 @@ import express from "express";
 import limited from "./src/middleware/ratelimit.middleware.js"
 import userRouter from "./src/routes/auth.routes.js"
 const app = express();
-
+app.set("trust proxy", 1);
 app.use(cors({
   origin: process.env.FRONTEND_URL,
   credentials: true,
@@ -13,7 +13,7 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser())
 app.use(helmet())
-
+app.use(express.urlencoded({ extended: true }));
 app.use(limited)
 app.use("/api/auth",userRouter);
 
